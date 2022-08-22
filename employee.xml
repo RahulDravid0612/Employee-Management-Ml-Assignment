@@ -1,0 +1,324 @@
+<export><workspace name="employee"><query name="Query 1" focus="false" listorder="1" taborder="1" active="true" database="15129843068917580124" server="6166986830366657121" database-name="employee" server-name="App-Services" mode="xquery" optimize="1">(:1.Create Document for each employee and add document to employee collection:)
+
+
+xdmp:document-load("C:\mls-projects\Employee\EMP001.xml",
+ &lt;options xmlns="xdmp:document-load"&gt;
+ &lt;collections&gt;
+ &lt;collection&gt;employee&lt;/collection&gt;
+ &lt;/collections&gt;
+ &lt;/options&gt;)
+ 
+ xdmp:document-load("C:\mls-projects\Employee\EMP002.xml",
+ &lt;options xmlns="xdmp:document-load"&gt;
+ &lt;collections&gt;
+ &lt;collection&gt;employee&lt;/collection&gt;
+ &lt;/collections&gt;
+ &lt;/options&gt;),
+ 
+ xdmp:document-load("C:\mls-projects\Employee\EMP003.xml",
+ &lt;options xmlns="xdmp:document-load"&gt;
+ &lt;collections&gt;
+ &lt;collection&gt;employee&lt;/collection&gt;
+ &lt;/collections&gt;
+ &lt;/options&gt;),
+ 
+ xdmp:document-load("C:\mls-projects\Employee\EMP004.xml",
+ &lt;options xmlns="xdmp:document-load"&gt;
+ &lt;collections&gt;
+ &lt;collection&gt;employee&lt;/collection&gt;
+ &lt;/collections&gt;
+ &lt;/options&gt;),
+ 
+ xdmp:document-load("C:\mls-projects\Employee\EMP005.xml",
+ &lt;options xmlns="xdmp:document-load"&gt;
+ &lt;collections&gt;
+ &lt;collection&gt;employee&lt;/collection&gt;
+ &lt;/collections&gt;
+ &lt;/options&gt;),
+ 
+ xdmp:document-load("C:\mls-projects\Employee\EMP006.xml",
+ &lt;options xmlns="xdmp:document-load"&gt;
+ &lt;collections&gt;
+ &lt;collection&gt;employee&lt;/collection&gt;
+ &lt;/collections&gt;
+ &lt;/options&gt;),
+ 
+ xdmp:document-load("C:\mls-projects\Employee\EMP007.xml",
+ &lt;options xmlns="xdmp:document-load"&gt;
+ &lt;collections&gt;
+ &lt;collection&gt;employee&lt;/collection&gt;
+ &lt;/collections&gt;
+ &lt;/options&gt;),
+ 
+ xdmp:document-load("C:\mls-projects\Employee\EMP001.xml",
+ &lt;options xmlns="xdmp:document-load"&gt;
+ &lt;collections&gt;
+ &lt;collection&gt;employee&lt;/collection&gt;
+ &lt;/collections&gt;
+ &lt;/options&gt;),
+ 
+ xdmp:document-load("C:\mls-projects\Employee\EMP008.xml",
+ &lt;options xmlns="xdmp:document-load"&gt;
+ &lt;collections&gt;
+ &lt;collection&gt;employee&lt;/collection&gt;
+ &lt;/collections&gt;
+ &lt;/options&gt;),
+ 
+ xdmp:document-load("C:\mls-projects\Employee\EMP009.xml",
+ &lt;options xmlns="xdmp:document-load"&gt;
+ &lt;collections&gt;
+ &lt;collection&gt;employee&lt;/collection&gt;
+ &lt;/collections&gt;
+ &lt;/options&gt;),
+ 
+ xdmp:document-load("C:\mls-projects\Employee\EMP010.xml",
+ &lt;options xmlns="xdmp:document-load"&gt;
+ &lt;collections&gt;
+ &lt;collection&gt;employee&lt;/collection&gt;
+ &lt;/collections&gt;
+ &lt;/options&gt;),
+
+xdmp:document-load("C:\mls-projects\Employee\EMP011.xml",
+ &lt;options xmlns="xdmp:document-load"&gt;
+ &lt;collections&gt;
+ &lt;collection&gt;employee&lt;/collection&gt;
+ &lt;/collections&gt;
+ &lt;/options&gt;),
+ 
+ xdmp:document-load("C:\mls-projects\Employee\EMP012.xml",
+ &lt;options xmlns="xdmp:document-load"&gt;
+ &lt;collections&gt;
+ &lt;collection&gt;employee&lt;/collection&gt;
+ &lt;/collections&gt;
+ &lt;/options&gt;)
+</query><query name="Query 2" focus="false" listorder="2" taborder="2" active="true" database="1313940438625556854" server="6166986830366657121" database-name="Documents" server-name="App-Services" mode="xquery" optimize="1">(:2.Get the employee id grouping By Salary into following format :)
+
+
+xquery version "1.0-ml";
+element result{
+for $salary in distinct-values(collection("employee")/employee/salary)
+return element object{element salary{$salary},collection("employee")[.//salary eq $salary]//empId}}
+  
+ 
+  </query><query name="Query 3" focus="false" listorder="3" taborder="3" active="true" database="15129843068917580124" server="6166986830366657121" database-name="employee" server-name="App-Services" mode="xquery" optimize="1">(:3.Get Employee Id , Name , Salary, and date of joining is greater than 2010-07-21:)
+
+
+xquery version "1.0-ml";
+for $employee in collection("employee")/employee
+where $employee/joiningdttm ge "2020-07-21"
+return element employee{$employee/empId,$employee/name,$employee/salary,$employee/joiningdttm}</query><query name="Query 4" focus="false" listorder="4" taborder="4" active="true" database="15129843068917580124" server="6166986830366657121" database-name="employee" server-name="App-Services" mode="xquery" optimize="1">(:4.Get Employee whose Salary is Greater than 15000 in below format with tax 10%:)
+
+
+xquery version "1.0-ml";
+element result{
+for $employee in collection("employee")/employee
+where $employee/salary gt "15000" 
+return element object{$employee/empId,$employee/name,$employee/salary,element tax{$employee/salary div 100 * 10}}}</query><query name="Query 5" focus="false" listorder="5" taborder="5" active="true" database="15129843068917580124" server="6166986830366657121" database-name="employee" server-name="App-Services" mode="xquery" optimize="1">(:5.Get all employees who are in Ops department but not in Service Department:)
+
+
+xquery version "1.0-ml";
+for $employee in collection("employee")/employee
+where $employee/department[1] eq "Ops" and $employee/department[2] ne "Service"
+return $employee</query><query name="Query 6" focus="false" listorder="6" taborder="6" active="true" database="15129843068917580124" server="6166986830366657121" database-name="employee" server-name="App-Services" mode="xquery" optimize="1">(:6.Retrieve all the employees whose age is greater than 27 years:)
+
+
+xquery version "1.0-ml";
+for $employee in collection("employee")/employee
+let $age := xs:integer(fn:days-from-duration(fn:current-date() - xs:date($employee/dob/text())) div 365.25)
+where $age gt xs:integer("27")
+return $employee</query><query name="Query 7" focus="false" listorder="7" taborder="7" active="true" database="15129843068917580124" server="6166986830366657121" database-name="employee" server-name="App-Services" mode="xquery" optimize="1">(:7.Retrieve all the employees who are born in November or December in below format:)
+
+
+xquery version "1.0-ml";
+element result{
+for $employee in collection("employee")/employee
+let $date := xdmp:month-name-from-date(xs:date($employee/dob))
+where $date eq "December" or $date eq "November"
+return element object{$employee/empId,$employee/name,element bornMonth{$date}}
+}</query><query name="Query 8" focus="false" listorder="8" taborder="8" active="true" database="15129843068917580124" server="6166986830366657121" database-name="employee" server-name="App-Services" mode="xquery" optimize="1">(:8.Retrieve All employees from Ops Department[1] and group by Department[2]:)
+
+
+xquery version "1.0-ml";
+element result{
+for $dep in distinct-values(collection("employee")/employee/department[2])
+return  element object {element department{$dep}, collection("employee")[.//department[1]  eq "Ops" and .//department[2] eq $dep ]}}</query><query name="Query 9" focus="false" listorder="9" taborder="9" active="true" database="15129843068917580124" server="6166986830366657121" database-name="employee" server-name="App-Services" mode="xquery" optimize="1">(:9.	Write a Function which return Interval For given input start datetime, end datetime and interval duration.:)
+
+
+xquery version "1.0-ml";
+
+
+declare function local:interval($start as xs:dateTime,$end as xs:dateTime,$interval as xs:dayTimeDuration,$att as xs:integer)
+{
+if($start ne $end) then
+let $startDate := $start + $interval
+return 
+(
+&lt;interval attr="{$att}"&gt;
+  &lt;startTime&gt;{$start}&lt;/startTime&gt;
+  &lt;endTime&gt;{$startDate - xs:dayTimeDuration("PT1M")}&lt;/endTime&gt;
+&lt;/interval&gt;,
+local:interval($startDate,$end,$interval,$att+1))
+else
+(&lt;interval attr="{$att}"&gt;
+  &lt;startTime&gt;{$start}&lt;/startTime&gt;
+  &lt;endTime&gt;{$end}&lt;/endTime&gt;
+&lt;/interval&gt;)
+};
+element IntervalDetails{
+let $startDate := xs:dateTime("2008-02-01T10:00:00")
+let $endDate := xs:dateTime("2008-02-02T10:00:00")
+return (local:interval($startDate,$endDate,xs:dayTimeDuration("PT1H"),1))
+}</query><query name="Query 10" focus="false" listorder="10" taborder="10" active="true" database="15129843068917580124" server="6166986830366657121" database-name="employee" server-name="App-Services" mode="xquery" optimize="1">xquery version "1.0-ml";
+element result{
+for $salary in distinct-values(collection("employee")/employee/salary)
+return element object{element salary{$salary}, collection("employee")[.//salary eq $salary]//empId/text() ! element empid{.}}
+}
+</query><query name="Query 11" focus="true" listorder="11" taborder="11" active="true" database="1313940438625556854" server="6166986830366657121" database-name="Documents" server-name="App-Services" mode="xquery" optimize="1">xquery version "1.0-ml";
+let $doc:= 
+&lt;employees&gt; 
+&lt;employee&gt; 
+&lt;empId&gt;EMP001&lt;/empId&gt; 
+&lt;name&gt;John&lt;/name&gt; 
+&lt;dob&gt;1996-09-21&lt;/dob&gt; 
+&lt;designation&gt;Backend Developer&lt;/designation&gt; 
+&lt;department&gt;Dev&lt;/department&gt; 
+&lt;department&gt;RnD&lt;/department&gt; 
+&lt;salary&gt;10000&lt;/salary&gt; 
+&lt;joiningdttm&gt;2017-07-17T10:10:13:232Z&lt;/joiningdttm&gt; 
+&lt;/employee&gt;  
+ 
+&lt;employee&gt; 
+&lt;empId&gt;EMP002&lt;/empId&gt; 
+&lt;name&gt;Mike&lt;/name&gt; 
+&lt;dob&gt;2001-02-11&lt;/dob&gt; 
+&lt;designation&gt;UI Developer&lt;/designation&gt; 
+&lt;department&gt;Dev&lt;/department&gt; 
+&lt;department&gt;RnD&lt;/department&gt; 
+&lt;salary&gt;20000&lt;/salary&gt; 
+&lt;joiningdttm&gt;2018-08-20T02:12:13:232Z&lt;/joiningdttm&gt; 
+&lt;/employee&gt;  
+ 
+&lt;employee&gt; 
+&lt;empId&gt;EMP003&lt;/empId&gt; 
+&lt;name&gt;Clare&lt;/name&gt; 
+&lt;dob&gt;1992-07-11&lt;/dob&gt; 
+&lt;designation&gt;DBA&lt;/designation&gt; 
+&lt;department&gt;Dev&lt;/department&gt; 
+&lt;department&gt;RnD&lt;/department&gt; 
+&lt;salary&gt;30000&lt;/salary&gt; 
+&lt;joiningdttm&gt;2001-05-21T08:12:13:232Z&lt;/joiningdttm&gt; 
+&lt;/employee&gt;  
+ 
+&lt;employee&gt; 
+&lt;empId&gt;EMP004&lt;/empId&gt; 
+&lt;name&gt;Marker&lt;/name&gt; 
+&lt;dob&gt;1995-09-21&lt;/dob&gt; 
+&lt;designation&gt;Backend Developer&lt;/designation&gt; 
+&lt;department&gt;Dev&lt;/department&gt; 
+&lt;department&gt;RnD&lt;/department&gt; 
+&lt;salary&gt;40000&lt;/salary&gt; 
+&lt;joiningdttm&gt;2011-04-01T07:12:13:232Z&lt;/joiningdttm&gt; 
+&lt;/employee&gt;  
+ 
+&lt;employee&gt; 
+&lt;empId&gt;EMP005&lt;/empId&gt; 
+&lt;name&gt;Wade&lt;/name&gt; 
+&lt;dob&gt;1888-09-21&lt;/dob&gt; 
+&lt;designation&gt;AWS Admin&lt;/designation&gt; 
+&lt;department&gt;Ops&lt;/department&gt; 
+&lt;department&gt;RnD&lt;/department&gt; 
+&lt;salary&gt;90000&lt;/salary&gt; 
+&lt;joiningdttm&gt;2001-02-22T12:12:13:232Z&lt;/joiningdttm&gt; 
+&lt;/employee&gt;  
+
+&lt;employee&gt; 
+&lt;empId&gt;EMP006&lt;/empId&gt; 
+&lt;name&gt;Laura&lt;/name&gt; 
+&lt;dob&gt;2005-12-01&lt;/dob&gt; 
+&lt;designation&gt;QA Manager&lt;/designation&gt; 
+&lt;department&gt;QA&lt;/department&gt; 
+&lt;department&gt;RnD&lt;/department&gt; 
+&lt;salary&gt;&lt;/salary&gt; 
+&lt;joiningdttm&gt;2017-04-06T11:12:13:232Z&lt;/joiningdttm&gt; 
+&lt;/employee&gt;  
+
+&lt;employee&gt; 
+&lt;empId&gt;EMP007&lt;/empId&gt; 
+&lt;name&gt;Anne&lt;/name&gt; 
+&lt;dob&gt;1996-09-07&lt;/dob&gt; 
+&lt;designation&gt;Backend Developer&lt;/designation&gt; 
+&lt;department&gt;Dev&lt;/department&gt; 
+&lt;department&gt;Service&lt;/department&gt; 
+&lt;salary&gt;60000&lt;/salary&gt; 
+&lt;joiningdttm&gt;2011-04-13T19:12:13:232Z&lt;/joiningdttm&gt; 
+&lt;/employee&gt;  
+
+&lt;employee&gt; 
+&lt;empId&gt;EMP008&lt;/empId&gt; 
+&lt;name&gt;Gray&lt;/name&gt; 
+&lt;dob&gt;1995-07-16&lt;/dob&gt; 
+&lt;designation&gt;Backend Developer&lt;/designation&gt; 
+&lt;department&gt;Dev&lt;/department&gt; 
+&lt;department&gt;Service&lt;/department&gt; 
+&lt;salary&gt;10000&lt;/salary&gt; 
+&lt;joiningdttm&gt;2014-02-17T11:12:13:232Z&lt;/joiningdttm&gt; 
+&lt;/employee&gt;  
+
+&lt;employee&gt; 
+&lt;empId&gt;EMP009&lt;/empId&gt; 
+&lt;name&gt;Robert&lt;/name&gt; 
+&lt;dob&gt;2001-03-31&lt;/dob&gt; 
+&lt;designation&gt;UI Developer&lt;/designation&gt; 
+&lt;department&gt;Dev&lt;/department&gt; 
+&lt;department&gt;Service&lt;/department&gt; 
+&lt;salary&gt;30000&lt;/salary&gt; 
+&lt;joiningdttm&gt;2021-08-16T13:12:13:232Z&lt;/joiningdttm&gt; 
+&lt;/employee&gt;  
+
+&lt;employee&gt; 
+&lt;empId&gt;EMP010&lt;/empId&gt; 
+&lt;name&gt;Robert1&lt;/name&gt; 
+&lt;dob&gt;2002-03-31&lt;/dob&gt; 
+&lt;designation&gt;UI Developer&lt;/designation&gt; 
+&lt;department&gt;Dev&lt;/department&gt; 
+&lt;department&gt;Service&lt;/department&gt; 
+&lt;salary&gt;&lt;/salary&gt; 
+&lt;joiningdttm&gt;2018-04-09T07:12:13:232Z&lt;/joiningdttm&gt; 
+&lt;/employee&gt;  
+
+&lt;employee&gt; 
+&lt;empId&gt;EMP0011&lt;/empId&gt; 
+&lt;name&gt;Jack&lt;/name&gt; 
+&lt;dob&gt;1997-04-01&lt;/dob&gt; 
+&lt;designation&gt;GCP Admin&lt;/designation&gt; 
+&lt;department&gt;Ops&lt;/department&gt; 
+&lt;department&gt;Service&lt;/department&gt; 
+&lt;salary&gt;60000&lt;/salary&gt; 
+&lt;joiningdttm&gt;2011-07-21T10:12:13:232Z&lt;/joiningdttm&gt; 
+&lt;/employee&gt;  
+ 
+&lt;employee&gt; 
+&lt;empId&gt;EMP0012&lt;/empId&gt; 
+&lt;name&gt;May&lt;/name&gt; 
+&lt;dob&gt;1992-07-10&lt;/dob&gt; 
+&lt;designation&gt;GCP Admin&lt;/designation&gt; 
+&lt;department&gt;Ops&lt;/department&gt; 
+&lt;department&gt;RnD&lt;/department&gt; 
+&lt;salary&gt;40000&lt;/salary&gt; 
+&lt;joiningdttm&gt;2011-07-21T12:13:17:232Z&lt;/joiningdttm&gt; 
+&lt;/employee&gt;  
+&lt;/employees&gt; 
+
+
+for $employee at $counter in $doc//employee 
+return xdmp:document-insert("/" || $employee/empId/text(),
+$employee,
+&lt;options xmlns="xdmp:document-insert"&gt;
+&lt;collections&gt;
+{
+if($counter lt 6)then(&lt;collection&gt;emp1to5&lt;/collection&gt;)else(&lt;collection&gt;emp6to12&lt;/collection&gt;)
+}
+&lt;/collections&gt;
+&lt;/options&gt;)
+
+</query></workspace></export>
